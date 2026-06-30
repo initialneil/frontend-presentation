@@ -120,7 +120,7 @@ let pages = 88;           // deck page count (nav upper bound)
 let cur = 1;
 let lastPage = 1;         // value-compare guard against sync echo
 
-/* ---------- load notes (live from Obsidian via /notes.json) ---------- */
+/* ---------- load notes (live from notes.md via /notes.json) ---------- */
 async function loadNotes(announce){
   try{
     const r = await fetch('/notes.json', {cache:'no-store'});
@@ -213,7 +213,7 @@ function setPage(p, isLocal){
   cur = p; lastPage = p;
   render();
   if(isLocal){
-    try{ localStorage.setItem('defense-page', String(p)); }catch(e){}
+    try{ localStorage.setItem('present-page', String(p)); }catch(e){}
     CH.postMessage({page:p});
     history.replaceState(null,'','#'+p);
   }
@@ -237,7 +237,7 @@ addEventListener('keydown', e => {
   else if(e.key==='v'||e.key==='V'){ location.href = 'index.html#'+cur; }   // switch THIS screen to slides
   else if(e.key==='t'||e.key==='T'){ resetTimer(); }
   else if(e.key==='d'||e.key==='D'){ toggleTheme(); }
-  else if((e.key==='r'||e.key==='R') && !e.metaKey && !e.ctrlKey){ loadNotes(true); CH.postMessage({reload:true}); }  // re-pull notes from Obsidian
+  else if((e.key==='r'||e.key==='R') && !e.metaKey && !e.ctrlKey){ loadNotes(true); CH.postMessage({reload:true}); }  // reload notes from notes.md
   else if(e.key==='f'||e.key==='F'){ if(document.fullscreenElement){document.exitFullscreen();}else{document.documentElement.requestFullscreen().catch(()=>{});} }
 });
 
@@ -254,7 +254,7 @@ try{ if(localStorage.getItem('notes-theme')==='dark') document.body.classList.ad
                    distributed across all scripted slides by narration word-count.
    E (estimated) = projected total length of the whole talk at your CURRENT pace.
                    On pace at arrival -> elapsed == T -> E == 50:00.
-   Both recompute live from the Obsidian notes, so editing a slide re-balances them. */
+   Both recompute live from notes.md, so editing a slide re-balances them. */
 const TARGET_TOTAL = (parseInt(new URLSearchParams(location.search).get('min'))||45)*60; // ?min=NN sets target
 let tgtArrive = {};             // slide n -> target elapsed (s) when you should ARRIVE here
 let fracBefore = {};            // slide n -> fraction of total narration delivered before n
@@ -312,7 +312,7 @@ paint();
 (function(){
   const h = location.hash.match(/\d+/);
   let p = h ? parseInt(h[0],10) : null;
-  if(!p){ try{ const s = localStorage.getItem('defense-page'); if(s) p = parseInt(s,10); }catch(e){} }
+  if(!p){ try{ const s = localStorage.getItem('present-page'); if(s) p = parseInt(s,10); }catch(e){} }
   cur = lastPage = (p && p>0) ? p : 1;
 })();
 loadNotes();
