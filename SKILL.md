@@ -33,9 +33,12 @@ discover the look through previews). The additions that make it a presentation *
 
 ### 0 · Scaffold the talk folder
 Pick/confirm a working folder for this talk (default: a new subfolder in the user's cwd). Copy the
-bundled `template/` contents (`index.html`, `notes.md`, `assets/`) and the whole `runtime/` folder
-into it so the deck, notes, and server sit together. (`runtime/present.py` serves its own folder, so
-keep `present.py`/`notes.html` beside `index.html`/`notes.md` — copy them in, or symlink.)
+bundled `template/` contents (`index.html`, `notes.md`, `assets/`) into it, then copy the **runtime
+files** (`present.py`, `notes.html`, `present.sh`) **flat into that same folder** — beside
+`index.html`/`notes.md`, **not** as a `runtime/` subfolder. `present.py` serves *its own* directory
+(`directory=dirname(__file__)`), so if it sits one level down in `runtime/` it serves that subfolder
+and `/index.html` 404s. Correct final layout, all in one flat folder:
+`index.html · notes.md · notes.html · present.py · present.sh · assets/`.
 
 ### 1 · Discover the aesthetic (frontend-slides Phase 2, briefly)
 Don't ask abstract style questions. Generate **3 distinct single-slide previews** (typography, color,
