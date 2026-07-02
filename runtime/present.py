@@ -109,6 +109,13 @@ class Handler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, *a):
         pass  # quiet — keep the terminal clean during the talk
 
+    def end_headers(self):
+        # files change mid-rehearsal — disable caching on EVERY response so a
+        # refresh always shows the latest deck/notes/assets (stale-cache bugs
+        # here are invisible and maddening)
+        self.send_header("Cache-Control", "no-store")
+        super().end_headers()
+
     def do_GET(self):
         if urlparse(self.path).path == "/notes.json":
             return self.serve_notes()

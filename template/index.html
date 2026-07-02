@@ -163,9 +163,14 @@ addEventListener('keydown',e=>{
 const CH=new BroadcastChannel('present-sync');
 const MYID=Math.random().toString(36).slice(2);   // this window's id (for "solo this window")
 let last=1;
+function soloClose(){try{window.close();}catch(_){}
+  setTimeout(()=>{ if(window.closed)return;   // browser refused — tell the human how to finish the job
+    const o=document.createElement('div');
+    o.style.cssText='position:fixed;inset:0;z-index:99;background:rgba(10,10,10,.92);color:#f6f1e7;display:flex;align-items:center;justify-content:center;font:600 40px system-ui;letter-spacing:.04em;';
+    o.textContent='This window could not close itself — press \u2318W';document.body.appendChild(o);},400);}
 function broadcast(){const p=deck.i+1;if(p===last)return;last=p;try{localStorage.setItem('present-page',String(p));}catch(e){}CH.postMessage({page:p});}
 CH.onmessage=e=>{
-  if(e.data&&e.data.solo){if(e.data.solo!==MYID){try{window.close();}catch(_){}}return;}  // peer said "solo this window" → close if not us
+  if(e.data&&e.data.solo){if(e.data.solo!==MYID)soloClose();return;}  // peer said "solo this window" → close if not us
   if(e.data&&e.data.reload){location.reload();return;}
   const p=e.data&&e.data.page;if(p&&p!==last){last=p;go(p-1);}};
 addEventListener('keydown',e=>{
@@ -173,7 +178,7 @@ addEventListener('keydown',e=>{
   else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){go(deck.i-1);e.preventDefault();}
   else if(e.key==='Home'){go(0);} else if(e.key==='End'){go(slides.length-1);}
   else if(e.key==='v'||e.key==='V'||e.code==='KeyV'){location.replace('notes.html#'+(deck.i+1));}
-  else if(e.key==='o'||e.key==='O'||e.code==='KeyO'){CH.postMessage({solo:MYID});}   // keep only THIS window, close the other
+  else if(e.key==='o'||e.key==='O'||e.code==='KeyO'||e.key==='0'||e.code==='Digit0'||e.code==='Numpad0'){CH.postMessage({solo:MYID});}   // keep only THIS window, close the other
   else if((e.key==='r'||e.key==='R'||e.code==='KeyR')&&!e.metaKey&&!e.ctrlKey){CH.postMessage({reload:true});location.reload();}
   else if(e.key==='f'||e.key==='F'||e.code==='KeyF'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{});}
 });

@@ -219,8 +219,13 @@ function setPage(p, isLocal){
     history.replaceState(null,'','#'+p);
   }
 }
+function soloClose(){ try{window.close();}catch(_){}
+  setTimeout(()=>{ if(window.closed)return;   // browser refused — tell the human how to finish the job
+    const o=document.createElement('div');
+    o.style.cssText='position:fixed;inset:0;z-index:99;background:rgba(10,10,10,.92);color:#f6f1e7;display:flex;align-items:center;justify-content:center;font:600 40px system-ui;letter-spacing:.04em;';
+    o.textContent='This window could not close itself — press \u2318W'; document.body.appendChild(o); },400); }
 CH.onmessage = e => {
-  if(e && e.data && e.data.solo){ if(e.data.solo!==MYID){ try{window.close();}catch(_){} } return; }  // a peer said "solo this window" → close if it's not us
+  if(e && e.data && e.data.solo){ if(e.data.solo!==MYID) soloClose(); return; }  // a peer said "solo this window" → close if it's not us
   if(e && e.data && e.data.reload){ loadNotes(true); return; }   // a peer asked to re-pull the notes
   const p = e && e.data && e.data.page;
   if(!p || p === lastPage) return;
@@ -239,7 +244,7 @@ addEventListener('keydown', e => {
   else if(e.key==='v'||e.key==='V'||e.code==='KeyV'){ location.replace('index.html#'+cur); }   // switch THIS screen to slides
   else if(e.key==='t'||e.key==='T'||e.code==='KeyT'){ resetTimer(); }
   else if(e.key==='d'||e.key==='D'||e.code==='KeyD'){ toggleTheme(); }
-  else if(e.key==='o'||e.key==='O'||e.code==='KeyO'){ CH.postMessage({solo:MYID}); }   // keep only THIS window, close the other
+  else if(e.key==='o'||e.key==='O'||e.code==='KeyO'||e.key==='0'||e.code==='Digit0'||e.code==='Numpad0'){ CH.postMessage({solo:MYID}); }   // keep only THIS window, close the other
   else if((e.key==='r'||e.key==='R'||e.code==='KeyR') && !e.metaKey && !e.ctrlKey){ loadNotes(true); CH.postMessage({reload:true}); }  // reload notes from notes.md
   else if(e.key==='f'||e.key==='F'||e.code==='KeyF'){ if(document.fullscreenElement){document.exitFullscreen();}else{document.documentElement.requestFullscreen().catch(()=>{});} }
 });
