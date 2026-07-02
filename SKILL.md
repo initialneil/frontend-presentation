@@ -103,7 +103,8 @@ It starts the server and opens two chromeless windows (Chrome `--app` mode). Tel
 2. Press **F** in each window for real fullscreen (F again to exit).
 3. Keys (either window, both follow): **← →** / space / PgUp-Dn / Home / End navigate · **V** swap a
    window between deck/notes · **D** notes light/dark · **R** reload notes from `notes.md` (and the
-   deck) · **T** reset timer (click the timer to pause).
+   deck) · **T** reset timer (click the timer to pause) · **O** solo — keep the window you press it in
+   and close the other (e.g. deck-only on a single screen; either window can send it).
 4. **Pacing:** the notes bar shows **T** (where the clock should read on this slide, narration
    word-count spread across the target length) and **E** (projected total at current pace — green
    under, red over); the live clock tints ahead/behind. Set the target with `PRESENT_MIN=<minutes>`.

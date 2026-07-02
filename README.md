@@ -69,6 +69,7 @@ It starts the server and opens two chromeless Chrome windows (slides + notes). T
    | `D` | notes light / dark theme |
    | `R` | reload notes from `notes.md` (and the deck) |
    | `T` | reset the elapsed timer (click the timer to pause) |
+   | `O` | solo — keep the window you press it in, close the other (e.g. deck-only on one screen) |
 
 Both windows must use the **same host** (`localhost`) for the sync to work. Stop the server with
 `kill <pid>` (printed by the launcher) or `lsof -ti:8765 | xargs kill`.

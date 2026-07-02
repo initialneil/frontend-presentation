@@ -110,10 +110,11 @@
     <span class="ntitle"></span>
     <span class="nline"></span>
   </div>
-  <div id="hint">F fullscreen&ensp;·&ensp;← → navigate&ensp;·&ensp;V → slides&ensp;·&ensp;D theme&ensp;·&ensp;R reload notes&ensp;·&ensp;T reset timer</div>
+  <div id="hint">F fullscreen&ensp;·&ensp;← → navigate&ensp;·&ensp;V → slides&ensp;·&ensp;D theme&ensp;·&ensp;R reload notes&ensp;·&ensp;T reset timer&ensp;·&ensp;O solo window</div>
 
 <script>
 const CH = new BroadcastChannel('present-sync');
+const MYID = Math.random().toString(36).slice(2);   // this window's id (for "solo this window")
 const $ = s => document.querySelector(s);
 let slices = {};          // n -> {n,title,tag,body}
 let pages = 88;           // deck page count (nav upper bound)
@@ -219,6 +220,7 @@ function setPage(p, isLocal){
   }
 }
 CH.onmessage = e => {
+  if(e && e.data && e.data.solo){ if(e.data.solo!==MYID){ try{window.close();}catch(_){} } return; }  // a peer said "solo this window" → close if it's not us
   if(e && e.data && e.data.reload){ loadNotes(true); return; }   // a peer asked to re-pull the notes
   const p = e && e.data && e.data.page;
   if(!p || p === lastPage) return;
@@ -237,6 +239,7 @@ addEventListener('keydown', e => {
   else if(e.key==='v'||e.key==='V'){ location.href = 'index.html#'+cur; }   // switch THIS screen to slides
   else if(e.key==='t'||e.key==='T'){ resetTimer(); }
   else if(e.key==='d'||e.key==='D'){ toggleTheme(); }
+  else if(e.key==='o'||e.key==='O'){ CH.postMessage({solo:MYID}); }   // keep only THIS window, close the other
   else if((e.key==='r'||e.key==='R') && !e.metaKey && !e.ctrlKey){ loadNotes(true); CH.postMessage({reload:true}); }  // reload notes from notes.md
   else if(e.key==='f'||e.key==='F'){ if(document.fullscreenElement){document.exitFullscreen();}else{document.documentElement.requestFullscreen().catch(()=>{});} }
 });

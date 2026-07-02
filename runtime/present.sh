@@ -60,6 +60,7 @@ if [ "$OPENED" = 1 ]; then cat <<EOF
     F    fullscreen        ← → / space / PgUp-Dn / Home / End   navigate
     V    swap this window slides <-> notes      D   notes light/dark
     R    reload notes from notes.md (+ deck)     T   reset timer (click timer = pause)
+    O    solo — keep THIS window, close the other (e.g. deck only, single screen)
   Stop the server:  kill $SERVER_PID    (or: lsof -ti:$PORT | xargs kill)
   ──────────────────────────────────────────────────────────────
 EOF
