@@ -236,12 +236,12 @@ addEventListener('keydown', e => {
   else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){ e.preventDefault(); setPage(cur-1,true); }
   else if(e.key==='Home'){ setPage(1,true); }
   else if(e.key==='End'){ setPage(pages,true); }
-  else if(e.key==='v'||e.key==='V'){ location.href = 'index.html#'+cur; }   // switch THIS screen to slides
-  else if(e.key==='t'||e.key==='T'){ resetTimer(); }
-  else if(e.key==='d'||e.key==='D'){ toggleTheme(); }
-  else if(e.key==='o'||e.key==='O'){ CH.postMessage({solo:MYID}); }   // keep only THIS window, close the other
-  else if((e.key==='r'||e.key==='R') && !e.metaKey && !e.ctrlKey){ loadNotes(true); CH.postMessage({reload:true}); }  // reload notes from notes.md
-  else if(e.key==='f'||e.key==='F'){ if(document.fullscreenElement){document.exitFullscreen();}else{document.documentElement.requestFullscreen().catch(()=>{});} }
+  else if(e.key==='v'||e.key==='V'||e.code==='KeyV'){ location.replace('index.html#'+cur); }   // switch THIS screen to slides
+  else if(e.key==='t'||e.key==='T'||e.code==='KeyT'){ resetTimer(); }
+  else if(e.key==='d'||e.key==='D'||e.code==='KeyD'){ toggleTheme(); }
+  else if(e.key==='o'||e.key==='O'||e.code==='KeyO'){ CH.postMessage({solo:MYID}); }   // keep only THIS window, close the other
+  else if((e.key==='r'||e.key==='R'||e.code==='KeyR') && !e.metaKey && !e.ctrlKey){ loadNotes(true); CH.postMessage({reload:true}); }  // reload notes from notes.md
+  else if(e.key==='f'||e.key==='F'||e.code==='KeyF'){ if(document.fullscreenElement){document.exitFullscreen();}else{document.documentElement.requestFullscreen().catch(()=>{});} }
 });
 
 /* ---------- light / dark theme (D toggles, remembered) ---------- */
