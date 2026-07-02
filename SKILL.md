@@ -63,6 +63,11 @@ Single HTML file, inline CSS/JS, **zero dependencies**. Keep the engine from `te
   steps the build in reverse. Re-entering a slide resets the stage (0 forward, max backward). Use builds
   for: revealing list items one beat at a time, or **zoom-and-settle** (show one figure large, then shrink
   it into place as the next appears). Don't over-animate — a build per slide at most, only where beats matter.
+- **Build-driven switcher (screenshot walkthroughs):** when a slide is "N steps, N screenshots", never
+  shrink the images into N side-by-side cards — they become unreadable. Show ONE big visual and let the
+  build stages SWAP it in place: stack `.shot` images absolutely in a frame, toggle by `.s0/.s1/.s2` on
+  the section root, and dim/highlight the matching talking points (`.vp`) in sync (see the `.switch`
+  example slide). Same arrow keys as a normal build, no extra JS — `data-build="N-1"` for N shots.
 - **Readability (projection-grade), enforce by default:**
   - Body text ≥ 28px (on the 1920 stage); slide titles 44–104px. If text needs to be smaller to fit, the
     slide has too much on it — cut it, the script goes in the notes.

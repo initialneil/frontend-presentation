@@ -49,6 +49,13 @@
   #build .step{opacity:0;transform:translateY(14px);transition:opacity .5s var(--ease),transform .5s var(--ease);}
   #build.s1 .step:nth-child(-n+1),#build.s2 .step:nth-child(-n+2),
   #build.s3 .step:nth-child(-n+3){opacity:1;transform:none;}
+
+  /* build-driven switcher: one big visual SWAPS per stage (not cumulative) — see the .switch slide.
+     .shot = stacked full-size visuals (screenshots), .vp = talking points that highlight in sync. */
+  .switch .shot{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .45s var(--ease);}
+  .switch.s0 .shot:nth-child(1),.switch.s1 .shot:nth-child(2),.switch.s2 .shot:nth-child(3),.switch.s3 .shot:nth-child(4){opacity:1;}
+  .switch .vp{opacity:.35;transition:opacity .3s var(--ease);}
+  .switch.s0 .vp:nth-child(1),.switch.s1 .vp:nth-child(2),.switch.s2 .vp:nth-child(3),.switch.s3 .vp:nth-child(4){opacity:1;}
 </style>
 </head>
 <body>
@@ -90,7 +97,30 @@
     </div>
   </section>
 
-  <!-- 4 · CLOSING -->
+  <!-- 4 · BUILD-DRIVEN SWITCHER — for "N steps, N screenshots": one BIG visual that swaps
+       per stage (never N tiny images side by side); the active point highlights in sync -->
+  <section class="slide switch" data-build="2">
+    <div class="pad">
+      <div class="kicker" style="margin-bottom:24px;">Same keys, different move</div>
+      <div style="display:flex;gap:48px;align-items:center;flex:1;">
+        <div style="max-width:560px;flex:none;">
+          <h2 class="head">Swap one <span class="it">big visual</span>, in place.</h2>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:26px;font-size:24px;">
+            <div class="vp">① Perfect for screenshot walkthroughs — full size, readable.</div>
+            <div class="vp">② → swaps the visual and lights up the matching point.</div>
+            <div class="vp">③ Entering backward lands on the last state, as usual.</div>
+          </div>
+        </div>
+        <div style="flex:1;position:relative;height:620px;border-radius:18px;overflow:hidden;">
+          <div class="shot" style="background:#26425A;display:flex;align-items:center;justify-content:center;color:#F0EEE6;font-size:40px;">screenshot 1</div>
+          <div class="shot" style="background:#584631;display:flex;align-items:center;justify-content:center;color:#F0EEE6;font-size:40px;">screenshot 2</div>
+          <div class="shot" style="background:#3C5240;display:flex;align-items:center;justify-content:center;color:#F0EEE6;font-size:40px;">screenshot 3</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · CLOSING -->
   <section class="slide">
     <div class="pad center">
       <div class="kicker reveal d1">Thank you</div>
